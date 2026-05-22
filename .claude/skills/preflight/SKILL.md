@@ -60,10 +60,16 @@ Search in parallel:
 3. **Skill registries** — claude-plugins.dev, skills.sh for similar Claude Code skills
 4. **Package managers** — PyPI (`pip search`), npm, cargo for similarly-named packages
 
-**EARLY STOP CONDITION:** If 3+ mature projects (active commits, >100 stars) already do
-substantially the same thing → STOP. Report findings immediately. Recommend:
-- "Use existing" if they fully meet the need
-- "Pivot" if a different angle might still work
+**EARLY STOP CONDITION:** If 3+ mature projects (active commits in last 3 months,
+>500 stars, or backed by a known organization) already do substantially the same
+thing → consider stopping. BUT first check for an escape hatch:
+
+**Escape hatch — ask ONE question before stopping:**
+> "You have unique domain expertise, a specific pain that existing tools don't
+> address, or a fundamentally different approach — any of these apply?"
+
+If YES → continue to Phase 2 despite competition. The user's unique angle may
+find a gap the market scan missed. If NO → STOP and recommend USE EXISTING or PIVOT.
 
 ### Phase 2: Deep Analysis (10 min, only if Phase 1 is green/yellow)
 
