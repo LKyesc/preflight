@@ -286,5 +286,5 @@ This is normal and good. Update the analysis as you learn. The process is iterat
 
 - Kahneman, D. (2011). *Thinking, Fast and Slow* — cognitive biases framework
 - Klein, G. (2007). *The Power of Intuition* — pre-mortem methodology
-- CloudServ (2026). "The Return of Intentional Friction" — good vs. bad friction
-- Gartner (2026). "Decision Intelligence Critical Capabilities" — decision governance predictions
+- CloudServ (2026). ["The Return of Intentional Friction"](https://cloudserv.ai/the-return-of-intentional-friction-why-some-2026-systems-are-designed-to-slow-you-down/) — good vs. bad friction in 2026 system design
+- Gartner (2026). ["Critical Capabilities for Decision Intelligence Platforms"](https://www.gartner.com/en/documents/7367030) (Doc ID: 7367030, Jan 27, 2026) — predicts 50% of business decisions will be augmented by AI agents by 2027
