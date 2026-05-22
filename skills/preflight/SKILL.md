@@ -82,7 +82,8 @@ Phase 1 scan only, no full Phase 2-7. Archive as `docs/decisions/features/`.
 | Phase 1 | 3+ mature competitors AND escape hatch fails | → Recommend USE EXISTING or PIVOT, archive, exit |
 | Phase 2 | True greenfield (0 competitors found) | → Phase 5 (bias deep-dive less critical for novel ideas) |
 | Phase 3 | Motivation = Learn | → Recommend BUILD, archive, exit (learning justifies building regardless) |
-| Phase 3 | Motivation = Own pain | → Phase 5 (bias scan still valuable, market scan less relevant) |
+| Phase 3 | Motivation = Own pain | → Phase 4, then Phase 5 (market scan less relevant, but bias detection is critical — own-pain builders are most susceptible to overconfidence and confirmation bias) |
+| Phase 3 | Motivation = Own pain AND Phase 1 found 0 competitors | → Recommend BUILD, archive lightweight decision (proposal + motivation + 2-line scan result), exit. Skip Phase 4-7. |
 | Phase 4 | >3 high-risk biases detected | → Flag explicitly in recommendation, lower confidence to "low" |
 | Any | User overrides and demands BUILD | → Archive the override reason, exit. Preflight advises, user decides. |
 
@@ -106,15 +107,22 @@ thing → consider stopping. BUT first check for an escape hatch:
 > "You have unique domain expertise, a specific pain that existing tools don't
 > address, or a fundamentally different approach — any of these apply?"
 
-If YES → continue to Phase 2 despite competition. The user's unique angle may
-find a gap the market scan missed. If NO → STOP and recommend USE EXISTING or PIVOT.
+If YES → run a 30-second sanity check before continuing: "Can I verify in one
+search that this angle is NOT already covered by the competitors I found?"
+Search once. If the angle IS already covered → report the finding and revert
+to the STOP recommendation. If genuinely uncovered → continue to Phase 2.
+If NO → STOP and recommend USE EXISTING or PIVOT.
+
+**If continuing to Phase 2:** carry forward the competitor list already found.
+Note each project's stars, last commit date, and a one-line summary now —
+do not re-search these in Phase 2.
 
 ### Phase 2: Deep Analysis (10 min, only if Phase 1 is green/yellow)
 
-For each competitor found, collect:
-- Stars, last commit date, contributor count → health signal
-- Feature coverage (what does it do? what doesn't it do?)
-- Community feedback (issues, Reddit/HN discussions)
+**Start from the competitor list collected in Phase 1.** For each, expand:
+- Contributor count and community health (issues, PR velocity)
+- Feature coverage in detail (what does it do? what doesn't it do?)
+- Community feedback (Reddit/HN discussions, common complaints in issues)
 
 Build a **coverage matrix**:
 
@@ -180,6 +188,13 @@ The user's motivation and background determine whether market saturation actuall
 - Check existing `docs/decisions/` for related past decisions
 - Note environment limitations (OS, available tools, no dataset, no ML infra, etc.)
 
+**Before moving on:** summarize findings here in 2-3 lines. These will be copied
+into the Phase 6 decision document:
+- Motivation: [learn / portfolio / own-pain / community / commercial]
+- Unique advantage: [one line]
+- Success definition: [one line]
+- Constraints: [one line]
+
 ### Phase 4: Cognitive Bias Detection
 
 **Run cognitive bias detection.** Check for these 7 bias types:
@@ -203,6 +218,12 @@ The user's motivation and background determine whether market saturation actuall
 > 3 users tried it and none came back because...'"
 
 Then check: which of these failure modes can we verify NOW?
+
+**If pre-mortem reveals a failure mode that is likely AND has no known mitigation:**
+- Lower confidence to LOW regardless of other findings
+- Explicitly flag this failure mode in the recommendation
+- If the failure mode is structural (cannot be mitigated by better execution),
+  this is grounds for ABANDON even if the market gap exists
 
 **Surface opportunity cost:**
 > "If you commit to building this (estimated 1-4 weeks), what are you NOT doing?"
@@ -281,9 +302,12 @@ related: [links to related decision files]
 Do not re-run the analysis. Do not say "are you sure?" The user owns the decision.
 
 Based on recommendation:
-- 🟢 BUILD → Archive decision. Report: "Preflight complete. Handing off to implementation."
-  **Exit preflight mode entirely.** Let brainstorming/writing-plans/coding skills take over.
-  Do NOT constrain or re-evaluate during implementation — that's not your role.
+- 🟢 BUILD → Archive decision. Then:
+  1. Verbally report: "Preflight complete. Recommendation: BUILD (confidence: [level])."
+  2. Summarize the key decision context in 2-3 lines for the next skill
+  3. Invoke the brainstorming skill with: "User wants to build [project]. Preflight
+     context: [motivation], [key gap found], [main risk from pre-mortem]."
+  4. Exit preflight mode — do NOT constrain or re-evaluate during implementation.
 - 🟡 PIVOT → Present the pivot suggestion. If user wants to explore it, re-run preflight
   as a fresh cycle on the new angle. If they don't, exit.
 - 🔴 ABANDON → Archive decision. If the topic resurfaces later, reference this decision
@@ -328,7 +352,16 @@ This boundary keeps preflight focused and prevents scope creep into project mana
 Ask: "Is this a serious proposal or just thinking out loud? I can do a quick scan or a full preflight."
 
 **Research tools are unavailable:**
-Note the limitation, do what you can with available tools, flag "low confidence" in the output.
+If WebSearch/WebFetch are blocked or rate-limited, fall back in this order:
+1. Use the Grep/Glob tools to check local cache or previously downloaded data
+2. Search from the model's training knowledge (note: "based on training data, may be outdated")
+3. Ask the user: "I can't search right now. Do you already know of similar tools? List any you're aware of."
+Flag "low confidence" in the output and set decision expiry to 1 month regardless of domain.
+
+Specific tool notes:
+- `pip search` is disabled by PyPI — use `pip install <name> --dry-run` or web search instead
+- GitHub search may rate-limit — spread searches across different query terms
+- If ALL search tools fail → ask user whether to proceed with training-knowledge-only scan or defer
 
 **User disagrees with the recommendation:**
 The user always has the final say. Document their override reason in the decision archive.
