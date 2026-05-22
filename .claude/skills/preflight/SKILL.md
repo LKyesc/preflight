@@ -46,6 +46,18 @@ intentional friction (CloudServ 2026), cognitive bias research (Kahneman).
 - Questions about how something works
 - "帮我查一下/看一下这个" (Help me look up / check something)
 
+**Gray area — ask for clarification when:**
+
+| Scenario | Question to ask |
+|----------|----------------|
+| "Add X feature to existing project" | "Is X a core direction change or just an incremental addition?" |
+| "I've been thinking about this for days" | "Want me to run a quick landscape scan to validate before committing more time?" |
+| "This emerged while building Y" | "Is this a dependency of Y or a separate idea that can wait?" |
+| "I need a tool that does X" | "New project or integrating into an existing workflow?" |
+
+**For incremental features in existing projects:** run a lightweight version —
+Phase 1 scan only, no full Phase 2-7. Archive as `docs/decisions/features/`.
+
 **If unsure:** ask "Is this a new project idea? Should I run preflight on it?"
 
 ## Workflow
