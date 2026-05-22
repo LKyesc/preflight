@@ -31,47 +31,84 @@ intentional friction (CloudServ 2026), cognitive bias research (Kahneman).
 
 ## When to Invoke
 
-**Trigger phrases** (user says anything resembling these):
+Preflight uses **intent-based triggering**, not keyword matching. Before invoking, evaluate
+the user's request against the three criteria below, in order. All three must be satisfied
+for full preflight.
 
-English:
-- "Let's build/create/make/develop a new..."
-- "I have an idea for a project/tool/skill..."
-- "I want to create/build a..."
+### Decision Tree (evaluate in order, stop at first NO)
 
-中文:
-- "我想做一个/开发一个/构建一个..."
-- "我们来做一个..."
-- "要不要试试做..."
-- "能不能开发一个..."
-- "咱们能不能搞一个..."
-- "写一个工具来..."
-- "要不要搭一个..."
-- "我需要一个能..."
-- "能不能帮我做一个..."
-- "我们来做..."
-- "有没有什么工具可以..." (如果隐含"没有就自己做一个"的意思)
-- "我想试试做..."
+```
+Q1: Is this a NEW standalone initiative?
+│   Does NOT yet exist as code in the current repo.
+│   NOT a modification, extension, or repair of existing code.
+│
+├── NO → STOP. Do NOT invoke preflight.
+│         (bug fix, refactor, add feature to existing project,
+│          modify existing file, "how do I...", "explain this...")
+│
+└── YES → continue to Q2
 
-**Do NOT invoke for:**
-- Bug fixes in existing code
-- Adding features to an existing project (unless it's a major new direction)
-- Refactoring, testing, documentation updates
-- Questions about how something works
-- "帮我查一下/看一下这个" (Help me look up / check something)
+Q2: What is the SCALE of the new thing?
+│
+├── Trivial: one function, a config change, a single <50-line script
+│   → STOP. Do NOT invoke.
+│
+├── Small: multi-file utility, quick one-off CLI, < 4 hours work
+│   → LIGHTWEIGHT preflight: Phase 1 scan only, no archive.
+│     Just answer: "does this already exist?" and report.
+│
+└── Medium+: new package, tool, service, skill, library, app
+    → Continue to Q3 for FULL preflight.
 
-**Gray area — ask for clarification when:**
+Q3: Is the user COMMITTED or just exploring?
+│
+├── Exploring: "what if we...", "could we...", "有没有可能...",
+│   "是不是可以...", thinking out loud with no clear decision
+│   → Ask: "Is this a serious proposal or thinking out loud?"
+│     If serious → proceed. If just exploring → skip preflight.
+│
+├── Already researched: user mentions specific competitors,
+│   says "I've looked at X and Y, they don't do Z"
+│   → LIGHTWEIGHT: Phase 1 + Phase 3 (motivation), skip deep scan.
+│
+└── Committed: "let's build", "I want to create", "做一个新的...",
+    user is in an empty directory, or names a project that doesn't
+    exist yet → FULL preflight.
+```
 
-| Scenario | Question to ask |
-|----------|----------------|
-| "Add X feature to existing project" | "Is X a core direction change or just an incremental addition?" |
-| "I've been thinking about this for days" | "Want me to run a quick landscape scan to validate before committing more time?" |
-| "This emerged while building Y" | "Is this a dependency of Y or a separate idea that can wait?" |
-| "I need a tool that does X" | "New project or integrating into an existing workflow?" |
+### Context Signals (weigh these, don't keyword-match)
 
-**For incremental features in existing projects:** run a lightweight version —
-Phase 1 scan only, no full Phase 2-7. Archive as `docs/decisions/features/`.
+**Signals that preflight SHOULD trigger:**
+- User proposes a named project/tool that doesn't exist in the current repo
+- User is in an empty or freshly-initialized directory
+- The request would create a new top-level directory structure
+- User mentions "publish", "release", "open source", "launch"
 
-**If unsure:** ask "Is this a new project idea? Should I run preflight on it?"
+**Signals that preflight should NOT trigger:**
+- Request references files or directories that already exist in the repo
+- Request contains "in this project", "add to", "update the", "fix the"
+- Task is completable in < 10 targeted edits to existing files
+- User says "how do I...", "can you explain...", "check/look at..."
+- Chinese patterns that are NOT new-project proposals:
+  "帮我查/看/解释/找/改/修/优化一下..." (look up, check, explain, find, fix, repair, optimize)
+  "这个代码/这个bug/这个报错..." (this code/bug/error)
+
+### Explicit Skip List
+
+These NEVER trigger preflight, regardless of phrasing:
+- Bug fixes, error resolution, debugging
+- Refactoring, style changes, code cleanup
+- Tests, documentation, comments
+- Feature additions to existing projects (even large ones — these are extensions, not new projects)
+- Single-function or single-file requests
+- "How do I...", "Explain...", "Show me...", "What is..."
+
+### One-Question Rule
+
+If still uncertain after the decision tree, ask exactly ONE question:
+- "Is this a new standalone project, or part of the current codebase?"
+
+Do not ask a second question. Make the call based on the answer.
 
 ## Workflow
 
@@ -80,10 +117,10 @@ Phase 1 scan only, no full Phase 2-7. Archive as `docs/decisions/features/`.
 | Phase | Condition | Skip to |
 |-------|-----------|---------|
 | Phase 1 | 3+ mature competitors AND escape hatch fails | → Recommend USE EXISTING or PIVOT, archive, exit |
-| Phase 2 | True greenfield (0 competitors found) | → Phase 5 (bias deep-dive less critical for novel ideas) |
+| Phase 2 | True greenfield (0 competitors found) | → Phase 3 (skip deep analysis since there's nothing to analyze, but motivation and bias checks are essential for novel ideas — novelty bias and overconfidence peak in greenfield territory) |
 | Phase 3 | Motivation = Learn | → Recommend BUILD, archive, exit (learning justifies building regardless) |
 | Phase 3 | Motivation = Own pain | → Phase 4, then Phase 5 (market scan less relevant, but bias detection is critical — own-pain builders are most susceptible to overconfidence and confirmation bias) |
-| Phase 3 | Motivation = Own pain AND Phase 1 found 0 competitors | → Recommend BUILD, archive lightweight decision (proposal + motivation + 2-line scan result), exit. Skip Phase 4-7. |
+| Phase 3 | Motivation = Own pain AND Phase 1 found 0 competitors | → Quick bias check (overconfidence + confirmation only, 2 min), then recommend BUILD, archive lightweight decision, exit. Own-pain builders are most susceptible to these two biases — skipping them entirely is risky even when no competitors exist. |
 | Phase 4 | >3 high-risk biases detected | → Flag explicitly in recommendation, lower confidence to "low" |
 | Any | User overrides and demands BUILD | → Archive the override reason, exit. Preflight advises, user decides. |
 
@@ -101,9 +138,18 @@ Search in parallel:
 
 **EARLY STOP CONDITION:** If 3+ mature projects (active commits in last 3 months,
 >1000 stars, or backed by a known organization) already do substantially the same
-thing → consider stopping. BUT first check for an escape hatch:
+thing → consider stopping. BUT first check motivation, then escape hatch:
 
-**Escape hatch — ask ONE question before stopping:**
+**Step 1 — Motivation check (do this BEFORE the escape hatch):**
+If the user's motivation is not already clear from conversation, determine it now.
+- 🎓 **Learn** or 🔧 **Own-pain** → skip early stop entirely, continue to Phase 2.
+  Building to learn or solve your own problem is valid regardless of competition.
+  The motivation-weighted routing in Phase 3 will handle these cases properly.
+- 📁 **Portfolio** → raise the threshold to 5+ mature competitors before stopping.
+  Portfolio projects benefit from existing competition as comparison points.
+- 🌍 **Community** or 💰 **Commercial** → proceed to escape hatch below.
+
+**Step 2 — Escape hatch (for Community/Commercial only):**
 > "You have unique domain expertise, a specific pain that existing tools don't
 > address, or a fundamentally different approach — any of these apply?"
 
@@ -197,7 +243,7 @@ into the Phase 6 decision document:
 
 ### Phase 4: Cognitive Bias Detection
 
-**Run cognitive bias detection.** Check for these 7 bias types:
+**Run cognitive bias detection.** Check for these 8 bias types:
 
 | Bias | Detection | Concrete Debiasing Action |
 |------|-----------|--------------------------|
