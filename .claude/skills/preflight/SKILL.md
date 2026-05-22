@@ -32,12 +32,25 @@ intentional friction (CloudServ 2026), cognitive bias research (Kahneman).
 ## When to Invoke
 
 **Trigger phrases** (user says anything resembling these):
-- "我想做一个/开发一个/构建一个..." (I want to build/create/make...)
+
+English:
 - "Let's build/create/make/develop a new..."
-- "我们来做一个..." (Let's make a...)
-- "要不要试试做..." (Want to try building...)
-- "能不能开发一个..." (Can you develop a...)
 - "I have an idea for a project/tool/skill..."
+- "I want to create/build a..."
+
+中文:
+- "我想做一个/开发一个/构建一个..."
+- "我们来做一个..."
+- "要不要试试做..."
+- "能不能开发一个..."
+- "咱们能不能搞一个..."
+- "写一个工具来..."
+- "要不要搭一个..."
+- "我需要一个能..."
+- "能不能帮我做一个..."
+- "我们来做..."
+- "有没有什么工具可以..." (如果隐含"没有就自己做一个"的意思)
+- "我想试试做..."
 
 **Do NOT invoke for:**
 - Bug fixes in existing code
