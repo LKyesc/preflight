@@ -290,6 +290,21 @@ Based on recommendation:
   rather than re-researching from scratch.
 - 📋 USE EXISTING → Present installation/usage guide for the recommended tool. Exit.
 
+## Scope Boundary
+
+Preflight is a **decision checkpoint**, not a **continuous monitor**. Specifically:
+
+- **YES:** One-time competitive scan + bias detection + recommendation before building
+- **YES:** Re-running preflight when a major pivot is proposed mid-project
+- **NO:** Continuous monitoring during active development
+- **NO:** Periodic re-evaluation of past decisions (use decision expiry dates to trigger re-runs)
+- **NO:** Mid-sprint check-ins, progress tracking, or task management
+
+If you need continuous decision quality enforcement during execution (e.g., "are we
+still on track?", "has a new competitor emerged since we started?"), that is a separate
+concern that may warrant its own skill — it is explicitly NOT preflight's responsibility.
+This boundary keeps preflight focused and prevents scope creep into project management.
+
 ## Anti-Patterns
 
 **NEVER:**
