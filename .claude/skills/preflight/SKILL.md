@@ -62,6 +62,19 @@ Phase 1 scan only, no full Phase 2-7. Archive as `docs/decisions/features/`.
 
 ## Workflow
 
+**Phase exit gates — when to skip ahead:**
+
+| Phase | Condition | Skip to |
+|-------|-----------|---------|
+| Phase 1 | 3+ mature competitors AND escape hatch fails | → Recommend USE EXISTING or PIVOT, archive, exit |
+| Phase 2 | True greenfield (0 competitors found) | → Phase 5 (bias deep-dive less critical for novel ideas) |
+| Phase 3 | Motivation = Learn | → Recommend BUILD, archive, exit (learning justifies building regardless) |
+| Phase 3 | Motivation = Own pain | → Phase 5 (bias scan still valuable, market scan less relevant) |
+| Phase 4 | >3 high-risk biases detected | → Flag explicitly in recommendation, lower confidence to "low" |
+| Any | User overrides and demands BUILD | → Archive the override reason, exit. Preflight advises, user decides. |
+
+---
+
 ### Phase 1: Rapid Landscape Scan (5 min)
 
 Goal: find out if this already exists.
