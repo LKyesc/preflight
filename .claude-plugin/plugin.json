@@ -1,0 +1,21 @@
+{
+  "name": "preflight",
+  "version": "1.0.0",
+  "description": "Decision quality enforcement for AI agents — mandatory pre-build competitive research, bias detection, and decision archiving",
+  "author": "Preflight Contributors",
+  "license": "MIT",
+  "keywords": [
+    "decision-making",
+    "competitive-analysis",
+    "market-research",
+    "bias-detection",
+    "pre-mortem",
+    "project-planning",
+    "product-management"
+  ],
+  "skills": [
+    "preflight"
+  ],
+  "repository": "https://github.com/preflight-skills/preflight",
+  "homepage": "https://github.com/preflight-skills/preflight#readme"
+}

@@ -1,15 +1,12 @@
-# Preflight Project
+# Preflight
+
+A Claude Code skill for decision quality enforcement.
+Pre-build competitive research, bias detection, and decision archiving.
 
 ## Skills
-- preflight: mandatory pre-build competitive research + decision quality enforcement
+- **preflight**: mandatory pre-build checklist — search, analyze, decide, archive
 
-## About This Project
-Preflight is both a Claude Code skill AND a demonstration of why the skill exists.
-The `docs/decisions/` directory contains real decision archives from the process
-that led to creating preflight — three abandoned projects that would have been
-caught earlier if preflight had existed.
-
-## Key Rules
-- Always run preflight before proposing new project ideas
-- Archive every significant decision in `docs/decisions/`
-- When referencing past decisions, link to the decision file rather than re-explaining
+## For Contributors
+- Install skills locally: copy `skills/` to `.claude/skills/`
+- Decision archives go in `docs/decisions/`
+- Run preflight on new feature proposals before implementing

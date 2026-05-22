@@ -99,7 +99,7 @@ Search in parallel:
 4. **Package managers** — PyPI (`pip search`), npm, cargo for similarly-named packages
 
 **EARLY STOP CONDITION:** If 3+ mature projects (active commits in last 3 months,
->500 stars, or backed by a known organization) already do substantially the same
+>1000 stars, or backed by a known organization) already do substantially the same
 thing → consider stopping. BUT first check for an escape hatch:
 
 **Escape hatch — ask ONE question before stopping:**

@@ -1,0 +1,27 @@
+{
+  "name": "preflight",
+  "owner": "preflight-skills",
+  "description": "Mandatory pre-build checklist. Before writing ANY code for a new project: search existing solutions, analyze competitors, detect cognitive biases, run pre-mortem analysis, and archive the decision. The single most valuable outcome is 'don't build this.'",
+  "category": "workflow",
+  "tags": [
+    "decision-making",
+    "competitive-analysis",
+    "market-research",
+    "bias-detection",
+    "pre-mortem",
+    "project-planning",
+    "productivity",
+    "quality"
+  ],
+  "skills": [
+    {
+      "name": "preflight",
+      "path": "skills/preflight/SKILL.md",
+      "description": "Pre-build competitive research + decision quality enforcement"
+    }
+  ],
+  "install": {
+    "type": "git",
+    "url": "https://github.com/preflight-skills/preflight"
+  }
+}
