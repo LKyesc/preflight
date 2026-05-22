@@ -1,13 +1,13 @@
 ---
 name: preflight
 description: >
-  Mandatory pre-build checklist. Before writing ANY code for a new project,
-  feature, or tool: search existing solutions, analyze competitors, find
+  Mandatory pre-build checklist. Before writing ANY code for a new project
+  or tool: search existing solutions, analyze competitors, find
   differentiation gaps, detect cognitive biases, and archive the decision.
   If you skip this, you will waste time building what already exists.
   Invoke when user proposes "build X", "create a tool", "make a new project",
   "develop a skill", "let's do Y from scratch".
-  Do NOT invoke for bug fixes, minor edits, or existing-project tasks.
+  Do NOT invoke for bug fixes, minor edits, feature additions, or existing-project tasks.
 ---
 
 # Preflight — Decision Quality Enforcement for AI Agents
@@ -116,13 +116,30 @@ Do not ask a second question. Make the call based on the answer.
 
 | Phase | Condition | Skip to |
 |-------|-----------|---------|
-| Phase 1 | 3+ mature competitors AND escape hatch fails | → Recommend USE EXISTING or PIVOT, archive, exit |
-| Phase 2 | True greenfield (0 competitors found) | → Phase 3 (skip deep analysis since there's nothing to analyze, but motivation and bias checks are essential for novel ideas — novelty bias and overconfidence peak in greenfield territory) |
+| Phase 1 | 3+ mature competitors AND motivation = Community/Commercial AND escape hatch fails | → Recommend USE EXISTING or PIVOT, archive, exit |
+| Phase 1 | 5+ mature competitors AND motivation = Portfolio | → Recommend USE EXISTING or PIVOT, archive, exit (Portfolio threshold is 5+, not 3+ — existing competition can serve as comparison points) |
+| Phase 1 | 3+ mature competitors AND motivation = Learn or Own-pain | → Skip early stop, continue to Phase 2 (building to learn or solve own problem is valid regardless of competition) |
+| Phase 1 | 0 competitors found (true greenfield) | → Skip Phase 2 (nothing to deep-dive), go directly to Phase 3 |
 | Phase 3 | Motivation = Learn | → Recommend BUILD, archive, exit (learning justifies building regardless) |
-| Phase 3 | Motivation = Own pain | → Phase 4, then Phase 5 (market scan less relevant, but bias detection is critical — own-pain builders are most susceptible to overconfidence and confirmation bias) |
-| Phase 3 | Motivation = Own pain AND Phase 1 found 0 competitors | → Quick bias check (overconfidence + confirmation only, 2 min), then recommend BUILD, archive lightweight decision, exit. Own-pain builders are most susceptible to these two biases — skipping them entirely is risky even when no competitors exist. |
+| Phase 3 | Motivation = Own pain AND Phase 1 found >0 competitors | → Phase 4 (focus on overconfidence + confirmation bias), then Phase 5 |
+| Phase 3 | Motivation = Own pain AND Phase 1 found 0 competitors | → Quick bias check (overconfidence + confirmation only, 2 min), then recommend BUILD, archive lightweight decision, exit |
 | Phase 4 | >3 high-risk biases detected | → Flag explicitly in recommendation, lower confidence to "low" |
 | Any | User overrides and demands BUILD | → Archive the override reason, exit. Preflight advises, user decides. |
+
+### Lightweight Mode
+
+Triggered when Q2 determines SCALE = Small (multi-file utility, quick CLI, < 4 hours).
+Run ONLY the following, then exit:
+
+1. Search for existing solutions (same 4 sources as Phase 1)
+2. Quick motivation check — ask or infer: learning? own pain? other?
+3. Report results, weighted by motivation:
+   - Learn or Own-pain + competitors exist → "X, Y, Z exist, but you're building to
+     learn/solve your own problem — go ahead. Worth skimming them for ideas though."
+   - Other + 3+ mature competitors → "X, Y, Z already cover this well. Worth your time?"
+   - 0-2 competitors → "Nothing matching found. Looks safe to proceed."
+4. Do NOT archive a decision document
+5. Do NOT run bias detection, pre-mortem, or any Phase 2-6 steps
 
 ---
 
@@ -395,7 +412,8 @@ This boundary keeps preflight focused and prevents scope creep into project mana
 ## Edge Cases
 
 **User is just brainstorming out loud:**
-Ask: "Is this a serious proposal or just thinking out loud? I can do a quick scan or a full preflight."
+Already handled by Q3 in the decision tree. If the user is exploring ("what if...", "could we..."),
+ask once whether it's serious. If not, skip preflight entirely.
 
 **Research tools are unavailable:**
 If WebSearch/WebFetch are blocked or rate-limited, fall back in this order:
