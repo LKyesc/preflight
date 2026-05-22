@@ -146,16 +146,16 @@ The user's motivation and background determine whether market saturation actuall
 
 **Run cognitive bias detection.** Check for these 7 bias types:
 
-| Bias | Detection | Debiasing Action |
-|------|-----------|-----------------|
-| **Anchoring** | First idea dominates all discussion | Actively search for alternatives to the first idea |
-| **Confirmation** | Only searching for evidence that supports building | Explicitly search for reasons NOT to build |
-| **Overconfidence** | Underestimating competition, overestimating differentiation | Apply "outside view": what % of similar projects succeed? |
-| **Novelty** | New idea → automatically good | Ask: "if this idea is so good, why hasn't anyone done it?" |
-| **Sunk cost** | "We've already discussed this so much" | Reset: "if we learned about this idea 5 minutes ago, would we start?" |
-| **Framing** | "This will get stars" driving decisions | Separate: "is this good?" from "will this get attention?" |
-| **Halo** | One good aspect makes everything seem good | List BOTH strengths and weaknesses explicitly |
-| **Context blindness** | Judging idea without considering WHY user is building | Always cross-reference motivation before final recommendation |
+| Bias | Detection | Concrete Debiasing Action |
+|------|-----------|--------------------------|
+| **Anchoring** | First idea dominates all discussion | Force-list 3 completely unrelated solution categories — not just variants of the first idea |
+| **Confirmation** | Only searching for evidence that supports building | Assign "devil's advocate" role: write 3 specific attacks on the proposal, each citing concrete evidence |
+| **Overconfidence** | Underestimating competition, overestimating differentiation | Find 5 similar GitHub repos. How many stopped maintenance within 2 years? Apply that base rate. |
+| **Novelty** | New idea → automatically good | Search for similar proposals from 2 years ago. If any existed — why did they fail? |
+| **Sunk cost** | "We've already discussed this so much" | Hard reset: "If you heard this idea for the first time 5 minutes ago, which direction would you pick?" Write the answer. |
+| **Framing** | "This will get stars" driving decisions | Score separately: Quality (1-10) and Virality (1-10). Each score requires independent evidence. |
+| **Halo** | One good aspect makes everything seem good | List at least as many weaknesses as strengths. Every weakness must cite a specific risk or data point. |
+| **Context blindness** | Judging idea without considering WHY user is building | If motivation = Learn → skip Phase 2/3/4 entirely, go directly to BUILD recommendation |
 
 ### Phase 5: Decision Synthesis
 
